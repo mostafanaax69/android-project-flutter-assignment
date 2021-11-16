@@ -447,7 +447,6 @@ class _LoginScreen extends State<LoginScreen> {
     TextEditingController _email = TextEditingController(text: "");
     TextEditingController _password = TextEditingController(text: "");
     TextEditingController _confirm = TextEditingController(text: "");
-    var _validate = true;
 
     return Scaffold(
         key: scaffoldKey,
@@ -555,7 +554,6 @@ class _LoginScreen extends State<LoginScreen> {
                                         backgroundColor: Colors.red,
                                       );
                                       setState(() {
-                                        _validate = false;
                                         FocusScope.of(context).requestFocus(FocusNode());
                                       });
                                     }

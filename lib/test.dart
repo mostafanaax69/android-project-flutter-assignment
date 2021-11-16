@@ -85,7 +85,7 @@ class AuthApp with ChangeNotifier {
   }
 
   Future<String>
-  getImageUrl() async {
+  getImage() async {
     return await _storage.ref('images').child(_user!.uid).getDownloadURL();
   }
 

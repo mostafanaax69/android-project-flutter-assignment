@@ -77,7 +77,7 @@ class _RandomWordsState extends State<RandomWords> {
   Widget _buildRow(WordPair pair) {
     final alreadySaved = _saved.contains(pair);
     final alreadySavedData =
-        (user.status == Status.Authenticated && user.getData().contains(pair));
+    (user.status == Status.Authenticated && user.getData().contains(pair));
     final isSaved = (alreadySaved || alreadySavedData);
     if (alreadySaved && !alreadySavedData) {
       user.addpair(pair.toString(), pair.first, pair.second);
@@ -132,7 +132,7 @@ class _RandomWordsState extends State<RandomWords> {
             var favorites = _saved;
             var text;
             final GlobalKey<ScaffoldState> _scaffoldKey =
-                new GlobalKey<ScaffoldState>();
+            new GlobalKey<ScaffoldState>();
             if (user.status == Status.Authenticated) {
               favorites = _saved.union(user.getData());
             } else {
@@ -140,7 +140,7 @@ class _RandomWordsState extends State<RandomWords> {
             }
 
             final tiles = favorites.map(
-              (WordPair pair) {
+                  (WordPair pair) {
                 return Dismissible(
                     key: ObjectKey(pair),
                     onDismissed: (dir) {
@@ -150,7 +150,7 @@ class _RandomWordsState extends State<RandomWords> {
                             return AlertDialog(
                               title: Text(
                                   'Are You sure you want to delete $pair from your saved'
-                                  ' suggestions?'),
+                                      ' suggestions?'),
                               actions: [
                                 ElevatedButton(
                                   onPressed: () =>
@@ -214,9 +214,9 @@ class _RandomWordsState extends State<RandomWords> {
 
             final divided = tiles.isNotEmpty
                 ? ListTile.divideTiles(
-                    context: context,
-                    tiles: tiles,
-                  ).toList()
+              context: context,
+              tiles: tiles,
+            ).toList()
                 : <Widget>[];
 
             return Scaffold(
@@ -277,151 +277,150 @@ class _RandomWordsState extends State<RandomWords> {
             child: _buildSuggestions(),
             sheetBelow: user.status == Status.Authenticated
                 ? SnappingSheetContent(
-                    draggable: drag,
-                    child: Container(
-                      color: Colors.white,
-                      height: 80,
-                      child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            Column(children: [
-                              Row(children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    color: Colors.grey,
-                                    height: 40,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Flexible(
-                                            flex: 3,
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                  "  Welcome back, " +
-                                                      user.getMail(),
-                                                  textAlign: TextAlign.left,
-                                                  style: const TextStyle(
-                                                      fontSize: 16.0)),
-                                            )),
-                                        const IconButton(
-                                          icon: Icon(Icons.keyboard_arrow_up),
-                                          onPressed: null,
-                                        ),
+              draggable: drag,
+              child: Container(
+                color: Colors.white,
+                height: 80,
+                child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Column(children: [
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              color: Colors.grey,
+                              height: 40,
+                              child: Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Flexible(
+                                      flex: 3,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            "  Welcome back, " +
+                                                user.getMail(),
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                                fontSize: 16.0)),
+                                      )),
+                                  const IconButton(
+                                    icon: Icon(Icons.keyboard_arrow_up),
+                                    onPressed: null,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ]),
+                        Row(children: <Widget>[
+                          FutureBuilder(
+                            future: user.getImage(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              return CircleAvatar(
+                                radius: 40.0,
+                                backgroundColor: Colors.deepPurple,
+                                foregroundColor: Colors.purple,
+                                backgroundImage: snapshot.data != null
+                                    ? NetworkImage(
+                                    snapshot.data.toString())
+                                    : null,
+                              );
+                            },
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text(user.getMail(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))),
+                        ]),
+                        Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              MaterialButton(
+                                onPressed: () async {
+                                  FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: [
+                                      'png',
+                                      'jpg',
+                                      'gif',
+                                      'bmp',
+                                      'jpeg',
+                                      'webp'
+                                    ],
+                                  );
+                                  File file;
+                                  if (result != null) {
+                                    file = File(result.files.single.path
+                                        .toString());
+                                    user.uploadNewImage(file);
+                                  } else {}
+                                },
+                                textColor: Colors.white,
+                                padding: const EdgeInsets.only(
+                                    left: 1.0,
+                                    top: 1.0,
+                                    bottom: 100.0,
+                                    right: 100.0),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: <Color>[
+                                        Color(0xFF42A5F5),
+                                        Color(0xFF42A5F5),
                                       ],
                                     ),
                                   ),
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                      right: 10.0),
+                                  child: const Text('Change Avatar',
+                                      style: TextStyle(fontSize: 15)),
                                 ),
-                              ]),
-                              Row(children: <Widget>[
-                                FutureBuilder(
-                                  future: user.getImageUrl(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<String> snapshot) {
-                                    return CircleAvatar(
-                                      radius: 40.0,
-                                      backgroundColor: Colors.deepPurple,
-                                      foregroundColor: Colors.purple,
-                                      backgroundImage: snapshot.data != null
-                                          ? NetworkImage(
-                                              snapshot.data.toString())
-                                          : null,
-                                    );
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text(user.getMail(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15))),
-                              ]),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    MaterialButton(
-                                      onPressed: () async {
-                                        FilePickerResult? result =
-                                            await FilePicker.platform.pickFiles(
-                                          type: FileType.custom,
-                                          allowedExtensions: [
-                                            'png',
-                                            'jpg',
-                                            'gif',
-                                            'bmp',
-                                            'jpeg',
-                                            'webp'
-                                          ],
-                                        );
-                                        File file;
-                                        if (result != null) {
-                                          file = File(result.files.single.path
-                                              .toString());
-                                          user.uploadNewImage(file);
-                                        } else {}
-                                      },
-                                      textColor: Colors.white,
-                                      padding: const EdgeInsets.only(
-                                          left: 1.0,
-                                          top: 1.0,
-                                          bottom: 100.0,
-                                          right: 100.0),
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: <Color>[
-                                              Color(0xFF42A5F5),
-                                              Color(0xFF42A5F5),
-                                            ],
-                                          ),
-                                        ),
-                                        padding: const EdgeInsets.only(
-                                            left: 10.0,
-                                            top: 8.0,
-                                            bottom: 8.0,
-                                            right: 10.0),
-                                        child: const Text('Change Avatar',
-                                            style: TextStyle(fontSize: 15)),
-                                      ),
-                                    ),
-                                  ]),
+                              ),
                             ]),
-                          ]),
-                    ),
-                    //heightBehavior: SnappingSheetHeight.fit(),
-                  )
+                      ]),
+                    ]),
+              ),
+              //heightBehavior: SnappingSheetHeight.fit(),
+            )
                 : null,
           ),
           onTap: () => {
-                setState(() {
-                  if (drag == false) {
-                    drag = true;
-                    sheetController
-                        .snapToPosition(const SnappingPosition.factor(
-                      positionFactor: 0,
-                    ));
-                  } else {
-                    drag = false;
-                    sheetController.snapToPosition(
-                        const SnappingPosition.factor(
-                            positionFactor: 0.2,
-                            snappingCurve: Curves.decelerate,
-                            snappingDuration: Duration(milliseconds: 200)));
-                  }
-                })
-              }),
+            setState(() {
+              if (drag == false) {
+                drag = true;
+                sheetController
+                    .snapToPosition(const SnappingPosition.factor(
+                  positionFactor: 0,
+                ));
+              } else {
+                drag = false;
+                sheetController.snapToPosition(
+                    const SnappingPosition.factor(
+                        positionFactor: 0.2,
+                        snappingCurve: Curves.decelerate,
+                        snappingDuration: Duration(milliseconds: 200)));
+              }
+            })
+          }),
     );
   }
 
   void _logoutScreen() async {
     sheetController
         .snapToPosition(SnappingPosition.factor(positionFactor: 0.2));
-    drag = false;
     await user.signOut();
     _saved.clear();
   }
@@ -487,27 +486,27 @@ class _LoginScreen extends State<LoginScreen> {
             user.status == Status.Authenticating
                 ? const Center(child: CircularProgressIndicator())
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (!await user.signIn(_email.text, _password.text)) {
-                          const snackBar = SnackBar(
-                              content: Text(
-                                  'There was an error logging into the app'));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text('Login'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(300, 48),
-                        shape: const StadiumBorder(),
-                        primary: Colors.deepPurple,
-                        onPrimary: Colors.white,
-                      ),
-                    ),
-                  ),
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (!await user.signIn(_email.text, _password.text)) {
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'There was an error logging into the app'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Login'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(300, 48),
+                  shape: const StadiumBorder(),
+                  primary: Colors.deepPurple,
+                  onPrimary: Colors.white,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: ElevatedButton(
@@ -538,8 +537,8 @@ class _LoginScreen extends State<LoginScreen> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Password',
                                     errorText: checkIfPassIdentecal
-                                    ? null
-                                    : 'Passwords must match',
+                                        ? null
+                                        : 'Passwords must match',
                                   ),
                                 ),
                                 ElevatedButton(
@@ -547,14 +546,13 @@ class _LoginScreen extends State<LoginScreen> {
                                     print(_confirm);
                                     if (_password.text == _confirm.text) {
                                       user.signUp(_email.text, _password.text);
-                                      Navigator.pushNamed(
-                                          context, '/login');
-                                      Navigator.pushNamed(context, '/');
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
                                     } else {
                                       checkIfPassIdentecal = false;
-                                       const snackBar = SnackBar(
+                                      const snackBar = SnackBar(
                                         content:
-                                            Text("Passwords must match"),
+                                        Text("Passwords must match"),
                                         duration: Duration(seconds: 5),
                                         backgroundColor: Colors.red,
                                       );

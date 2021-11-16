@@ -447,6 +447,7 @@ class _LoginScreen extends State<LoginScreen> {
     TextEditingController _email = TextEditingController(text: "");
     TextEditingController _password = TextEditingController(text: "");
     TextEditingController _confirm = TextEditingController(text: "");
+    var checkIfPassIdentecal = true;
 
     return Scaffold(
         key: scaffoldKey,
@@ -533,9 +534,12 @@ class _LoginScreen extends State<LoginScreen> {
                                 TextField(
                                   controller: _confirm,
                                   obscureText: true,
-                                  decoration: const InputDecoration(
+                                  decoration:  InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Password'
+                                    labelText: 'Password',
+                                    errorText: checkIfPassIdentecal
+                                    ? null
+                                    : 'Passwords must match',
                                   ),
                                 ),
                                 ElevatedButton(
@@ -547,6 +551,7 @@ class _LoginScreen extends State<LoginScreen> {
                                           context, '/login');
                                       Navigator.pushNamed(context, '/');
                                     } else {
+                                      checkIfPassIdentecal = false;
                                        const snackBar = SnackBar(
                                         content:
                                             Text("Passwords must match"),

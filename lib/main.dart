@@ -547,7 +547,7 @@ class _LoginScreen extends State<LoginScreen> {
                                           context, '/login');
                                       Navigator.pushNamed(context, '/');
                                     } else {
-                                       var snackBar = const SnackBar(
+                                       const snackBar = SnackBar(
                                         content:
                                             Text("Passwords must match"),
                                         duration: Duration(seconds: 5),
